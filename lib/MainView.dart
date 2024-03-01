@@ -12,15 +12,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  late TodoProvider todoStorage;
+  late TodoProvider todoProvider;
   late List<Todo> todos;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    TodoProvider todoProvider = TodoProvider();
-    todos = todoProvider.getTodos();
+    todoProvider = TodoProvider();
+    //todos = todoProvider.getTodos();
   }
   /*
   pass data to other route:
@@ -40,17 +40,22 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              title: Text(todos[index].title),
-              subtitle: Text(todos[index].description ?? ''),
-              trailing: Checkbox(
+              leading: Checkbox(
                 onChanged: (bool? value) {
                   setState(() {
-                    print('pressed btn');
                     todos[index].isDone = !todos[index].isDone!;
                   });
                 },
                 value: todos[index].isDone,
                 tristate: true,
+              ),
+              title: Text(todos[index].title),
+              subtitle: Text(todos[index].description ?? ''),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  Provider.of<TodoProvider>(context, listen: false).deleteTodo(index);
+                },
               ),
             ),
           );

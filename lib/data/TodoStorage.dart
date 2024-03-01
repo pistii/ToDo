@@ -9,6 +9,20 @@ class TodoProvider extends ChangeNotifier {
     Todo(title: 'Tanulás', description: 'Fizika, matekra felkészülni.', isDone: true),
   ];
 
+  deleteTodo(index)
+  {
+    if (index >= 0 && index < todos.length) {
+      if (todos.contains(todos[index])) {
+        todos.removeAt(index);
+        notifyListeners();
+      } else {
+        print('A todo az adott indexen nem létezik.');
+      }
+    } else {
+      print('Érvénytelen index: $index');
+    }
+  }
+
   void reloadTodos() {
     notifyListeners();
   }
